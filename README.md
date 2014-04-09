@@ -3,10 +3,13 @@ service_scan
 
 Requires iptools
 "pip install iptools"
+
 Requires netaddr
-"pip install netaddr
+"pip install netaddr"
+
 Requires paramiko
-"pip install paramiko
+"pip install paramiko"
+
 Requires getpass
 "pip install getpass"
 
