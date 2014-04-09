@@ -44,10 +44,12 @@ for k in hosts:
   print '\nTrying ' + k +'...' 
   try:
     client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(k, username=user, key_filename=ssh_key, look_for_keys=False, allow_agent=False, timeout=10)
-    stdin, stdout, stderr = client.exec_command('ls')
+    stdin, stdout, stderr = client.exec_command('chkconfig --list | grep ntp; ps axflww | grep -i ntp; ls /etc/init.d/ | grep -i ntp')
+    print '\n'
     for line in stdout:
-      print '... ' + line.strip('\n')
+      print '\t' + line.strip('\n')
     client.close()
   except socket.timeout:
     print 'Ruh roh, ' + k + ' has timed out.'
@@ -56,3 +58,4 @@ for k in hosts:
     if 'Connection refused' in v:
       print 'Ruh roh, ' + k + ' refused.'
     continue
+
